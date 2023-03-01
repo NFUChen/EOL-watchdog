@@ -9,7 +9,7 @@ services:
 
     environment:
       - MQTT_TOPIC_PUBLISHED=signal/EOL_test_result
-      - BROKER_HOST=localhost
+      - BROKER_HOST=twn-pdb.sram.com
 
     stdin_open: true
     tty: true
