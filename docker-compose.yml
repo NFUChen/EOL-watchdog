@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  watchdog:
+    container_name: watchdog
+    restart: always
+    build:
+      context: ./
+      dockerfile: dockerfile
+
+    environment:
+      - MQTT_TOPIC_PUBLISHED=signal/EOL_test_result
+      - BROKER_HOST=localhost
+
+    stdin_open: true
+    tty: true
+
+    network_mode: "host"
+
+    volumes:
+      - /home/sram-prod/eol_test_result:/eol_test_results
