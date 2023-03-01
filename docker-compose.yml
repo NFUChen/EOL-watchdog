@@ -17,4 +17,4 @@ services:
     network_mode: "host"
 
     volumes:
-      - /home/sram-prod/eol_test_result:/eol_test_results
+      - /home/sram-prod/test_results:/eol_test_results
