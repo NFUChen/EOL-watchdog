@@ -19,15 +19,15 @@ class TestResultParser:
         return checked_string in line
 
     def _handle_serial_number(self, line: str) -> None:
-        self.serial_number =  line.split(",").pop().strip()
 
-        if len(self.serial_number) >= 10:
-            return
         self.serial_number =  re.search('\d{10}', line)
 
         if self.serial_number is not None:
             self.serial_number = self.serial_number.group()
-    
+            return
+        
+        self.serial_number =  line.split(",").pop().strip()
+
     def _handle_final_result(self, line: str) -> None:
         self.final_result = re.search("PASS|FAIL|ERROR|NG", line)
 
