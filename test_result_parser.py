@@ -56,7 +56,7 @@ class TestResultParser:
                         handler(line)
                         continue
         if self.serial_number is None:
-            raise InvalidFileError("Invalid file format")
+            raise InvalidFileError(f"[{self.host_name}] Invalid file format, receiveing file named: {self.test_file}")
 
         return {  
             'host': self.host_name,

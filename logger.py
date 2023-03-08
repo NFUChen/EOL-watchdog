@@ -34,6 +34,8 @@ class Logger:
 
     def log(self, message: str) -> None:
         self.logger.info(message)
+    def error(self, message: str) -> None:
+        self.logger.error(message)
 
     def log_error(self, func:Callable) -> None:
         def wrapper(*args, **kwargs) -> Callable:
