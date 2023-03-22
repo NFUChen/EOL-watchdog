@@ -1,3 +1,4 @@
+docker rm -f watchdog && \
 docker build -t watchdog . && \
 docker run --name watchdog -idt \
     --restart always \
