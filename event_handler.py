@@ -5,10 +5,21 @@ from test_result_parser import TestResultParser
 from watchdog.events import FileSystemEvent, DirModifiedEvent
 from watchdog.events import FileSystemEventHandler
 from paho.mqtt.publish import single
-
+from socket import gaierror
 from logger import Logger
 
 
+def single_publish(hostname: str, topic: str, payload: str):
+    try:
+        single(
+            topic= topic, 
+            payload= str(payload), 
+            qos= 2, 
+            hostname= hostname
+        )
+    except gaierror as error:
+        print(error)
+        os._exit(1) # help docker to restart container
 
 class InvalidLoggerError(Exception):
     pass
@@ -24,10 +35,9 @@ def publish_and_log_error(func: Callable) -> Callable:
             error_topic = os.environ.get("MQTT_ERROR_TOPIC_PUBLISHED")
             self_host = socket.gethostname()
             
-            single(topic= f"{error_topic}/{self_host}", 
-                   qos= 2, 
-                   hostname= broker_host,
-                   payload= str(error))
+            single_publish(hostname= broker_host,
+                           topic= f"{error_topic}/{self_host}", 
+                           payload= str(error))
             global logger
             logger.error(error)
     return wrapper
@@ -58,12 +68,11 @@ class EventHandler(FileSystemEventHandler):
         parser = TestResultParser(event.src_path)
 
         parsed_result = parser.parse()
-        single(
+
+        single_publish(hostname= self.broker_host,
             topic= f"{self.mqtt_topic}/{self.self_host_name}", 
-            payload= str(parsed_result), 
-            qos= 2, 
-            hostname= self.broker_host
-        )
+            payload= str(parsed_result) )
+    
         print(parsed_result)
             
     def on_moved(self, event: FileSystemEvent) -> None:
