@@ -4,7 +4,7 @@ docker run --name watchdog -idt \
     --restart always \
     --net=host \
     -v /home/sram-prod/test_results:/eol_test_results \
-    -e BROKER_HOST='twn-pdb.sram.com' \
+    -e BROKER_HOST='10.3.5.60' \
     -e MQTT_TOPIC_PUBLISHED='signal/EOL_test_result' \
     -e MQTT_ERROR_TOPIC_PUBLISHED='signal/error' \
     watchdog
