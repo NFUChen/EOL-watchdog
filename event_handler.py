@@ -17,7 +17,7 @@ def single_publish(hostname: str, topic: str, payload: str):
             qos= 2, 
             hostname= hostname
         )
-    except gaierror as error:
+    except Exception as error:
         print(error)
         os._exit(1) # help docker to restart container
 
